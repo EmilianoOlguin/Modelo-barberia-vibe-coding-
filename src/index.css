@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+/* 
+  Configuración de Tema Luxury Dark para Tailwind v4
+  Definimos las variables de marca directamente en el CSS.
+*/
+@theme {
+  --color-main-bg: #0d0d0d;
+  --color-accent-gold: #C5A059;
+  --color-text-tiza: #F5F5F7;
+  --color-card-bg: #1a1a1a;
+  
+  --font-poppins: "Poppins", sans-serif;
+  --font-lato: "Lato", sans-serif;
+}
+
+/* Estilos Base Globales */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-main-bg);
+    color: var(--color-text-tiza);
+    font-family: var(--font-lato);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    margin: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  /* Scrollbar Customization */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-main-bg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-card-bg);
+    border: 2px solid var(--color-main-bg);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent-gold);
+  }
+}
+
+/* 
+  Utilidades de Animación y Efectos Luxury 
+*/
+@layer utilities {
+  .animate-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .animate-reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .gold-glow-hover:hover {
+    box-shadow: 0 0 30px rgba(197, 160, 89, 0.15);
+    border-color: rgba(197, 160, 89, 0.4);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 15px rgba(197, 160, 89, 0.5);
+  }
+}
+
+/* Importación de Google Fonts al final para evitar advertencias de @import */
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
