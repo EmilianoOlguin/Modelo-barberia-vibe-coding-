@@ -200,16 +200,3 @@ const AdminPanel = () => {
 };
 
 export default AdminPanel;
-nClick={handleBlockTime} className="w-full bg-accent-gold text-main-bg font-black uppercase text-[10px] py-4 tracking-[0.2em] hover:brightness-110 transition-all">
-                BLOQUEAR HORARIO
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default AdminPanel;
