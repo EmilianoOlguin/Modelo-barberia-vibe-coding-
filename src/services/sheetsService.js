@@ -14,10 +14,11 @@ export const getOccupiedSlots = async (date, branchId, barberId) => {
     const branchConfig = BRANCHES[branchId];
     if (!branchConfig) throw new Error("Branch config not found");
     
+    // fetchAvailability espera (branchConfig, forceRefresh)
     const availability = await fetchAvailability(branchConfig, true);
     
     // Filtrar turnos para la fecha, sucursal (si aplica) y barbero
-    return availability
+    return (availability || [])
       .filter(slot => slot.fecha === date && slot.barberoId === barberId)
       .map(slot => slot.hora);
   } catch (error) {
