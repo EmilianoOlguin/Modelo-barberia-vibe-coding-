@@ -18,6 +18,12 @@ const AdminPanel = () => {
   const [bookings, setBookings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   
+  // --- ESTADO DE BLOQUEO ---
+  const [blockSlot, setBlockSlot] = useState({
+    date: new Date().toISOString().split('T')[0],
+    time: '09:00'
+  });
+  
   // --- ESTADOS DE CONFIGURACIÓN ---
   const [config, setConfig] = useState({
     price: '$4500',
