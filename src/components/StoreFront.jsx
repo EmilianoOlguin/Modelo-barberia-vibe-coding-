@@ -218,7 +218,21 @@ const StoreFront = ({ config }) => {
         <div className="animate-fade-in">
           <button onClick={() => setStep(2)} className="text-accent-gold/40 text-xs mb-8 uppercase tracking-widest">← Volver</button>
           <div className="max-w-md mx-auto glass-card p-6 rounded-3xl">
-            <h3 className="text-center text-xl font-bold uppercase mb-8">{currentMonth.toLocaleString('es-ES', { month: 'long' })}</h3>
+            <div className="flex justify-between items-center mb-8">
+              <button 
+                onClick={() => setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() - 1)))}
+                className="w-10 h-10 flex items-center justify-center text-accent-gold hover:bg-accent-gold/10 rounded-full transition-all"
+              >
+                ←
+              </button>
+              <h3 className="text-xl font-bold uppercase">{currentMonth.toLocaleString('es-ES', { month: 'long', year: 'numeric' })}</h3>
+              <button 
+                onClick={() => setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() + 1)))}
+                className="w-10 h-10 flex items-center justify-center text-accent-gold hover:bg-accent-gold/10 rounded-full transition-all"
+              >
+                →
+              </button>
+            </div>
             <div className="grid grid-cols-7 gap-2">
               {['L', 'M', 'M', 'J', 'V', 'S', 'D'].map(d => <div key={d} className="text-center text-[10px] text-accent-gold/30 font-black">{d}</div>)}
               {calendarData.map((d, i) => (
@@ -228,7 +242,7 @@ const StoreFront = ({ config }) => {
                       disabled={d.disabled}
                       onClick={() => { setSelectedDate(d.fullDate); handleNextStep(4, d.fullDate); }}
                       className={`w-10 h-10 rounded-full font-bold text-sm transition-all
-                        ${d.disabled ? 'opacity-10' : 'text-white hover:bg-accent-gold/20'}
+                        ${d.disabled ? 'opacity-10 cursor-not-allowed' : 'text-white hover:bg-accent-gold/20'}
                         ${selectedDate === d.fullDate ? 'bg-accent-gold text-main-bg' : ''}`}
                     >
                       {d.day}

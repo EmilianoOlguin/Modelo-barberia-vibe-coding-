@@ -11,7 +11,10 @@ import { postBooking, fetchAvailability } from './api';
 export const getOccupiedSlots = async (date, branchId, barberId) => {
   try {
     console.log(`[SheetsService]: Consultando agenda real: ${barberId} | ${date}`);
-    const availability = await fetchAvailability(true);
+    const branchConfig = BRANCHES[branchId];
+    if (!branchConfig) throw new Error("Branch config not found");
+    
+    const availability = await fetchAvailability(branchConfig, true);
     
     // Filtrar turnos para la fecha, sucursal (si aplica) y barbero
     return availability
