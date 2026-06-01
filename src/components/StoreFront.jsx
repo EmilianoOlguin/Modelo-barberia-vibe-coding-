@@ -63,26 +63,52 @@ const StoreFront = ({ config }) => {
   const calendarData = useMemo(() => {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
-    const firstDay = new Date(year, month, 1).getDay();
+    
+    // El primer día del mes
+    const firstDayDate = new Date(year, month, 1);
+    const firstDay = firstDayDate.getDay(); // 0 = Domingo, 1 = Lunes...
+    
+    // Ajuste para que la semana empiece en Lunes (0=L, 1=M ... 6=D)
     const startingDay = firstDay === 0 ? 6 : firstDay - 1;
+    
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     
     const days = [];
     const today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
 
-    for (let i = 0; i < startingDay; i++) days.push({ day: null });
+    // Días vacíos al inicio
+    for (let i = 0; i < startingDay; i++) {
+      days.push({ day: null });
+    }
+
+    // Días del mes
     for (let i = 1; i <= daysInMonth; i++) {
       const date = new Date(year, month, i);
+      const isSunday = date.getDay() === 0;
+      
+      // Formato local YYYY-MM-DD para evitar problemas de UTC
+      const localFullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+      
       days.push({
         day: i,
-        fullDate: date.toISOString().split('T')[0],
-        disabled: date < today || date.getDay() === 0,
-        isSunday: date.getDay() === 0
+        fullDate: localFullDate,
+        // Un día está deshabilitado si es anterior a hoy o si es Domingo
+        disabled: date < today || isSunday,
+        isSunday: isSunday
       });
     }
     return days;
   }, [currentMonth]);
+
+  // Funciones seguras para cambiar de mes (evitan el error del día 31)
+  const handlePrevMonth = () => {
+    setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+  };
 
   // Carga de horarios
   useEffect(() => {
@@ -220,14 +246,14 @@ const StoreFront = ({ config }) => {
           <div className="max-w-md mx-auto glass-card p-6 rounded-3xl">
             <div className="flex justify-between items-center mb-8">
               <button 
-                onClick={() => setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() - 1)))}
+                onClick={handlePrevMonth}
                 className="w-10 h-10 flex items-center justify-center text-accent-gold hover:bg-accent-gold/10 rounded-full transition-all"
               >
                 ←
               </button>
               <h3 className="text-xl font-bold uppercase">{currentMonth.toLocaleString('es-ES', { month: 'long', year: 'numeric' })}</h3>
               <button 
-                onClick={() => setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() + 1)))}
+                onClick={handleNextMonth}
                 className="w-10 h-10 flex items-center justify-center text-accent-gold hover:bg-accent-gold/10 rounded-full transition-all"
               >
                 →
